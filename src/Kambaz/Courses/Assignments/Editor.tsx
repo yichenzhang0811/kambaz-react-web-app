@@ -25,7 +25,7 @@ export default function AssignmentEditor() {
             <label htmlFor="wd-points">Points</label>
           </td>
           <td>
-            <input id="wd-points" value={100} />
+            <input id="wd-points" type="number" defaultValue={100} />
           </td>
         </tr>
         <p></p>
@@ -103,10 +103,10 @@ export default function AssignmentEditor() {
         <p></p>
         <tr>
           <td align="right" valign="top">
-            <label htmlFor="wd-assign-to">Assign Assign to</label>
+            <label htmlFor="wd-assign-to">Assign to</label>
           </td>
           <td>
-            <input id="wd-assign-to" value={"Everyone"} />
+            <input id="wd-assign-to" defaultValue="Everyone" />
           </td>
         </tr>
         <p></p>
@@ -115,7 +115,7 @@ export default function AssignmentEditor() {
             <label htmlFor="wd-due-date">Due</label>
           </td>
           <td>
-            <input id="wd-due-date" type="date" value="2024-05-13" />
+            <input id="wd-due-date" type="date" defaultValue="2024-05-13" />
           </td>
         </tr>
 
@@ -124,7 +124,11 @@ export default function AssignmentEditor() {
             <label htmlFor="wd-available-from">Available from</label>
           </td>
           <td>
-            <input id="wd-available-from" type="date" value="2024-05-06" />
+            <input
+              id="wd-available-from"
+              type="date"
+              defaultValue="2024-05-06"
+            />
           </td>
         </tr>
         <tr>
@@ -132,17 +136,19 @@ export default function AssignmentEditor() {
             <label htmlFor="wd-available-until">Until</label>
           </td>
           <td>
-            <input id="wd-available-until" type="date" value="2024-05-20" />
+            <input
+              id="wd-available-until"
+              type="date"
+              defaultValue="2024-05-20"
+            />
           </td>
         </tr>
       </table>
       <hr />
       {/* Buttons */}
-      <div>
-        <td align="right">
-          <button>Cancel</button>
-          <button>Save</button>
-        </td>
+      <div style={{ textAlign: "right" }}>
+        <button>Cancel</button>
+        <button>Save</button>
       </div>
     </div>
   );

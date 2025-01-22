@@ -2,7 +2,7 @@ export default function Modules() {
   return (
     <div>
       <button>Cooapse All</button> <button>View Progress</button>
-      <select defaultValue="Publish All" id="wd-role">
+      <select defaultValue="Publish All" id="wd-publish">
         <option value="Publish All">Publish All</option>{" "}
         <option value="Publish Selected">Publish Selected</option>{" "}
       </select>
