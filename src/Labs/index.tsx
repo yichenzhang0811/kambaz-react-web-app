@@ -7,6 +7,14 @@ import { Routes, Route, Navigate } from "react-router-dom";
 export default function Labs() {
   return (
     <div>
+      <h1>Made by Yichen Zhang </h1>
+      <h1>
+        {" "}
+        You can find repository at{" "}
+        <a href="https://github.com/yichenzhang0811/kambaz-react-web-app">
+          here
+        </a>
+      </h1>
       <h1>Labs</h1>
       <TOC />
       <Routes>

@@ -318,7 +318,7 @@ export default function Lab1() {
         <h4> My github Link</h4>
         Please{" "}
         <a
-          href="https://github.com/yichenzhang0811/react-web-app-cs5610-sp25.git"
+          href="https://github.com/yichenzhang0811/kambaz-react-web-app"
           id="wd-github"
         >
           click here
