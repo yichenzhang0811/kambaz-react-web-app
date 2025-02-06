@@ -1,40 +1,68 @@
 import { Link } from "react-router-dom";
+import { Form } from "react-bootstrap";
+
 export default function Profile() {
   return (
-    <div id="wd-profile-screen">
-      <h3>Profile</h3>
-      <input
+    <div id="wd-signup-screen">
+      <h1>Profile</h1>
+      <Form.Control
+        id="wd-username"
         defaultValue="alice"
         placeholder="username"
-        className="wd-username"
+        className="wd-username mb-2"
       />
-      <br />
-      <input
+
+      <Form.Control
         defaultValue="123"
+        id="wd-password"
         placeholder="password"
         type="password"
-        className="wd-password"
+        className="mb-2 wd-password"
       />
-      <br />
-      <input defaultValue="Alice" placeholder="First Name" id="wd-firstname" />
-      <br />
-      <input
+
+      <Form.Control
+        defaultValue="Alice"
+        placeholder="First Name"
+        id="wd-firstname"
+        className="mb-2"
+      />
+
+      <Form.Control
         defaultValue="Wonderland"
         placeholder="Last Name"
         id="wd-lastname"
+        className="mb-2"
       />
-      <br />
-      <input defaultValue="2000-01-01" type="date" id="wd-dob" />
-      <br />
-      <input defaultValue="alice@wonderland" type="email" id="wd-email" />
-      <br />
-      <select defaultValue="FACULTY" id="wd-role">
-        <option value="USER">User</option> <option value="ADMIN">Admin</option>
-        <option value="FACULTY">Faculty</option>{" "}
+
+      <Form.Control
+        defaultValue="2000-01-01"
+        type="date"
+        id="wd-dob"
+        className="mb-2"
+      />
+
+      <Form.Control
+        placeholder="email"
+        type="email"
+        id="wd-dob"
+        defaultValue="alice@wonderland.com"
+        className="mb-2"
+      />
+
+      <Form.Select className="mb-2">
+        <option value="USER">User</option>
+        <option value="ADMIN">Admin</option>
+        <option value="FACULTY">Faculty</option>
         <option value="STUDENT">Student</option>
-      </select>
-      <br />
-      <Link to="/Kambaz/Account/Signin">Sign out</Link>
+      </Form.Select>
+
+      <Link
+        id="wd-signin-btn"
+        to="/Kambaz/Account/Signin"
+        className="btn btn-danger w-100 mb-2"
+      >
+        Sign out
+      </Link>
     </div>
   );
 }

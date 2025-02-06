@@ -1,151 +1,90 @@
 import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import { Col, Row, Button, Card } from "react-bootstrap";
+const courses = [
+  {
+    id: 1,
+    title: "CS5001",
+    img: "/images/reactjs.jpg",
+    description: "Intensive Foundations of Computer Science{",
+  },
+  {
+    id: 2,
+    title: "CS5002",
+    img: "/images/reactjs.jpg",
+    description: "Discrete Structures",
+  },
+  {
+    id: 3,
+    title: "CS5004",
+    img: "/images/reactjs.jpg",
+    description: "Object-Oriented Design",
+  },
+  {
+    id: 4,
+    title: "CS5008",
+    img: "/images/reactjs.jpg",
+    description: "Data Structures, Algorithms",
+  },
+  {
+    id: 5,
+    title: "CS5400",
+    img: "/images/reactjs.jpg",
+    description: "Principles of Programming Language",
+  },
+  {
+    id: 6,
+    title: "CS5500",
+    img: "/images/reactjs.jpg",
+    description: "Foundations of Software Engineering",
+  },
+  {
+    id: 7,
+    title: "CS5520",
+    img: "/images/reactjs.jpg",
+    description: "Mobile Application Development",
+  },
+];
+
 export default function Dashboard() {
   return (
     <div id="wd-dashboard">
-      <br />
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
       <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
       <div id="wd-dashboard-courses">
-        {/* Course 1 */}
-        <div className="wd-dashboard-course">
-          <Link
-            to="/Kambaz/Courses/CS5001/Home"
-            className="wd-dashboard-course-link"
-          >
-            <img src="/images/reactjs.jpg" width={200} />
-
-            <div>
-              <h5> CS5001 </h5>
-              <p className="wd-dashboard-course-title">
-                Intensive Foundations of Computer Science{" "}
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-
-        {/* Course 2 */}
-        <div className="wd-dashboard-course">
-          <Link
-            to="/Kambaz/Courses/CS5002/Home"
-            className="wd-dashboard-course-link"
-          >
-            <img src="/images/reactjs.jpg" width={200} />
-
-            <div>
-              <h5> CS5002 </h5>
-              <p className="wd-dashboard-course-title">Discrete Structures </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-
-        {/* Course 3 */}
-        <div className="wd-dashboard-course">
-          <Link
-            to="/Kambaz/Courses/CS5004/Home"
-            className="wd-dashboard-course-link"
-          >
-            <img src="/images/reactjs.jpg" width={200} />
-
-            <div>
-              <h5> CS5004 </h5>
-              <p className="wd-dashboard-course-title">
-                Object-Oriented Design{" "}
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-
-        {/* Course 4 */}
-        <div className="wd-dashboard-course">
-          <Link
-            to="/Kambaz/Courses/CS5008/Home"
-            className="wd-dashboard-course-link"
-          >
-            <img src="/images/reactjs.jpg" width={200} />
-
-            <div>
-              <h5> CS5008 </h5>
-              <p className="wd-dashboard-course-title">
-                Data Structures, Algorithms, and Their Applications within
-                Computer Systems{" "}
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-
-        {/* Course 5 */}
-        <div className="wd-dashboard-course">
-          <Link
-            to="/Kambaz/Courses/CS5400/Home"
-            className="wd-dashboard-course-link"
-          >
-            <img src="/images/reactjs.jpg" width={200} />
-
-            <div>
-              <h5> CS5400 </h5>
-              <p className="wd-dashboard-course-title">
-                Principles of Programming Language{" "}
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-
-        {/* Course 6 */}
-        <div className="wd-dashboard-course">
-          <Link
-            to="/Kambaz/Courses/CS5500/Home"
-            className="wd-dashboard-course-link"
-          >
-            <img src="/images/reactjs.jpg" width={200} />
-
-            <div>
-              <h5> CS5500 </h5>
-              <p className="wd-dashboard-course-title">
-                Foundations of Software Engineering{" "}
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-
-        {/* Course 7 */}
-        <div className="wd-dashboard-course">
-          <Link
-            to="/Kambaz/Courses/CS5520/Home"
-            className="wd-dashboard-course-link"
-          >
-            <img src="/images/reactjs.jpg" width={200} />
-
-            <div>
-              <h5> CS5520 </h5>
-              <p className="wd-dashboard-course-title">
-                Mobile Application Development{" "}
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-
-        {/* Course 8 */}
-        <div className="wd-dashboard-course">
-          <Link
-            to="/Kambaz/Courses/CS5600/Home"
-            className="wd-dashboard-course-link"
-          >
-            <img src="/images/reactjs.jpg" width={200} />
-
-            <div>
-              <h5> CS5600 </h5>
-              <p className="wd-dashboard-course-title">Computer Systems </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
+        <Row xs={5} md={2} xl={10} className="g-4">
+          {courses.map((course) => (
+            <Col
+              key={course.id}
+              className="wd-dashboard-course"
+              style={{ width: "300px" }}
+            >
+              <Card>
+                <Link
+                  to={`/Kambaz/Courses/${course.id}/Home`}
+                  className="wd-dashboard-course-link text-decoration-none text-dark"
+                >
+                  <Card.Img
+                    variant="top"
+                    src={course.img}
+                    width="100%"
+                    height={160}
+                  />
+                  <Card.Body>
+                    <Card.Title className="wd-dashboard-course-title">
+                      {course.title}
+                    </Card.Title>
+                    <Card.Text className="wd-dashboard-course-description">
+                      {course.description}
+                    </Card.Text>
+                    <Button variant="primary">Go</Button>
+                  </Card.Body>
+                </Link>
+              </Card>
+            </Col>
+          ))}
+        </Row>
       </div>
     </div>
   );

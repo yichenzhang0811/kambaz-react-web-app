@@ -1,5 +1,5 @@
 import Lab1 from "./Lab1";
-import Lab2 from "./Lab2";
+import Lab2 from "./Lab2/index";
 import Lab3 from "./Lab3";
 import TOC from "./TOC";
 import { Routes, Route, Navigate } from "react-router-dom";
