@@ -1,7 +1,4 @@
-import {
-  IoEllipsisHorizontalSharp,
-  IoEllipsisVerticalSharp,
-} from "react-icons/io5";
+import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import { BsPlus } from "react-icons/bs";
 export default function AssignmentControlButtons() {
   return (
