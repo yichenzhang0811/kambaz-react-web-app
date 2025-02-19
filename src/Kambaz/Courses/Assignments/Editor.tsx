@@ -1,6 +1,14 @@
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { useParams } from "react-router";
+import * as db from "../../Database";
 
 export default function AssignmentEditor() {
+  const { cid, aid } = useParams();
+  console.log(aid);
+  const assignment = db.assignments.find(
+    (assignment) => assignment._id === aid
+  );
+  console.log(assignment);
   return (
     <div>
       <Container className="p-4" id="wd-assignments-editor">
@@ -21,12 +29,7 @@ export default function AssignmentEditor() {
             <Form.Control
               as="textarea"
               rows={4}
-              defaultValue="The assignment is available online Submit a link to the landing page of
-        your Web application running on Netlify. The landing page should include
-        the following: Your full name and section Links to each of the lab
-        assignments Link to the Kambaz application Links to all relevant source
-        code repositories The Kambaz application should include a link to
-        navigate back to the landing page."
+              defaultValue={assignment?.description}
             />
           </Form.Group>
 
@@ -35,7 +38,7 @@ export default function AssignmentEditor() {
             <Form.Label>
               <strong>Points</strong>
             </Form.Label>
-            <Form.Control type="number" defaultValue="100" />
+            <Form.Control type="number" defaultValue={assignment?.points} />
           </Form.Group>
 
           {/* Assignment Group */}
@@ -125,7 +128,7 @@ export default function AssignmentEditor() {
                 </Form.Label>
                 <Form.Control
                   type="datetime-local"
-                  defaultValue="2024-05-13T23:59"
+                  defaultValue={assignment?.due_date}
                 />
               </Form.Group>
             </Col>
@@ -136,7 +139,7 @@ export default function AssignmentEditor() {
                 </Form.Label>
                 <Form.Control
                   type="datetime-local"
-                  defaultValue="2024-05-06T12:00"
+                  defaultValue={assignment?.avaible_at}
                 />
               </Form.Group>
             </Col>
@@ -158,7 +161,12 @@ export default function AssignmentEditor() {
             <Button variant="light" className="me-2">
               Cancel
             </Button>
-            <Button variant="danger">Save</Button>
+            <Button
+              href={`#/Kambaz/Courses/${cid}/Assignments`}
+              variant="danger"
+            >
+              Save
+            </Button>
           </div>
         </Form>
       </Container>
