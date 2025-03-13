@@ -14,7 +14,6 @@ import ForLoops from "./ForLoops";
 import FunctionDestructing from "./FunctionDestructing";
 import House from "./House";
 import IfElse from "./IfElse";
-import ImpliedReturn from "./ImpliedReturn";
 import JsonStringify from "./JsonStringify";
 import LegacyFunctions from "./LegacyFunctions";
 import MapFunction from "./MapFunction";
@@ -31,14 +30,22 @@ import Add from "./Add";
 import Square from "./Square";
 import Highlight from "./Highlight";
 import PathParameters from "./PathParameters";
+import { useSelector } from "react-redux";
+import { ListGroup } from "react-bootstrap";
 
 export default function Lab3() {
-  const multiply = (a: number, b: number) => a * b;
-  const fourTimesFive = multiply(4, 5);
-  console.log("Hello World!");
+  const { todos } = useSelector((state: any) => state.todosReducer);
+
   return (
     <div id="wd-lab3">
       <h3>Lab 3</h3>
+      <ListGroup>
+        {todos.map((todo: any) => (
+          <ListGroup.Item key={todo.id}>{todo.title}</ListGroup.Item>
+        ))}
+      </ListGroup>
+      <hr />
+
       <VariablesAndConstants />
       <VariableTypes />
       <BooleanVariables />
@@ -49,7 +56,6 @@ export default function Lab3() {
       <LegacyFunctions />
       <ArrowFunctions />
 
-      <ImpliedReturn fourTimesFive={fourTimesFive} />
       <TemplateLiterals />
       <SimpleArrays />
       <ArrayIndexAndLength />

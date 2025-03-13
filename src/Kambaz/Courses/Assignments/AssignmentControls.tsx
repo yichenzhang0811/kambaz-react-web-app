@@ -1,57 +1,65 @@
 import { FaPlus } from "react-icons/fa6";
-import { Button, Form, InputGroup } from "react-bootstrap";
-import { FaSearch } from "react-icons/fa";
-
-const searchBarStyle = {
-  width: "",
-  borderRadius: "8px",
-};
-
-const searchIconStyle = {
-  background: "transparent",
-  borderRight: "none",
-  color: "#6c757d",
-};
-
-const inputStyle = {
-  borderLeft: "none",
-  boxShadow: "none",
-  fontSize: "20px",
-  padding: "6px 10px",
-};
-
-export default function AssignmentsControls() {
+import { Button } from "react-bootstrap";
+import { IoSearch } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router";
+export default function AssignmentsControls({
+  isFaculty,
+}: {
+  isFaculty: boolean;
+}) {
+  const { cid } = useParams();
+  const navigate = useNavigate();
   return (
-    <div id="wd-modules-controls" className="text-nowrap">
-      <Button
-        variant="danger"
-        size="lg"
-        className="me-1 float-end"
-        id="wd-add-module-btn"
-      >
-        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-        Assignment
-      </Button>
+    <div>
+      <div className="d-flex flex-row">
+        <div className="input-group float-left" style={{ width: "50%" }}>
+          <span className="input-group-text ">
+            {" "}
+            <IoSearch />
+          </span>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search ..."
+          />
+        </div>
 
-      <Button
-        variant="light"
-        size="lg"
-        className="me-1 float-end"
-        id="wd-add-group"
-      >
-        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-        Group
-      </Button>
-      <InputGroup style={searchBarStyle}>
-        <InputGroup.Text style={searchIconStyle}>
-          <FaSearch />
-        </InputGroup.Text>
-        <Form.Control
-          type="text"
-          placeholder="Search for Assignment"
-          style={inputStyle}
-        />
-      </InputGroup>
+        <div id="wd-assignment-controls" className="text-nowrap ms-auto">
+          {isFaculty && (
+            <>
+              <Button
+                variant="danger"
+                size="lg"
+                className="me-1 float-end"
+                id="wd-add-module-btn"
+                onClick={() =>
+                  navigate(`/Kambaz/Courses/${cid}/Assignments/new`)
+                }
+              >
+                <FaPlus
+                  className="position-relative me-2"
+                  style={{ bottom: "1px" }}
+                />
+                Assignment
+              </Button>
+
+              <Button
+                variant="light"
+                size="lg"
+                className="me-1 float-end"
+                id="wd-add-group"
+              >
+                <FaPlus
+                  className="position-relative me-2"
+                  style={{ bottom: "1px" }}
+                />
+                Group
+              </Button>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
