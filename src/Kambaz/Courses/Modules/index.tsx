@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FormControl, ListGroup } from "react-bootstrap";
 import ModulesControls from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
 import { BsGripVertical } from "react-icons/bs";
 import { useParams } from "react-router";
-import * as db from "../../Database";
-import { v4 as uuidv4 } from "uuid";
 import { addModule, editModule, updateModule, deleteModule } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 
