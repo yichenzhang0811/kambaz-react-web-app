@@ -1,13 +1,15 @@
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { addAssignment, updateAssignment } from "./reducer";
 import { v4 as uuidv4 } from "uuid";
-
+import * as courseClient from "../client";
+import * as assignmentClient from "./client";
 export default function AssignmentEditor() {
+  const navigate = useNavigate();
+
   const { cid, aid } = useParams();
-  console.log(cid, aid);
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const dispatch = useDispatch();
   const isNewAssigment = aid === "new";
@@ -32,12 +34,26 @@ export default function AssignmentEditor() {
         }
       : currentAssignment || {}
   );
+  const newAssign = aid === "new";
 
-  const handleSave = () => {
-    if (isNewAssigment) {
-      dispatch(addAssignment(assignment));
-    } else {
-      dispatch(updateAssignment(assignment));
+  const handleSave = async () => {
+    if (!cid) return;
+    try {
+      if (newAssign) {
+        const newAssignment = await courseClient.createAssignmentForCourse(
+          cid,
+          assignment
+        );
+        dispatch(addAssignment(newAssignment));
+      } else {
+        const updatedAssignment = await assignmentClient.updateAssignment(
+          assignment
+        );
+        dispatch(updateAssignment(updatedAssignment));
+      }
+      navigate(`/Kambaz/Courses/${cid}/Assignments`);
+    } catch (error) {
+      console.error("Failed saving assignment change", error);
     }
   };
   const formatDate = (isoString: string | undefined) => {

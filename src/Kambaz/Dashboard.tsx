@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addEnrollment, deleteEnrollment } from "./Enrollments/reducer";
-
+import {
+  addEnrollment,
+  deleteEnrollment,
+  setEnrollments,
+} from "./Enrollments/reducer";
+import * as enrollmentClient from "./Enrollments/client";
 export default function Dashboard({
   courses,
   course,
@@ -21,8 +25,30 @@ export default function Dashboard({
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
-  const isFaculty = currentUser.role === "FACULTY";
   const dispatch = useDispatch();
+
+  const isFaculty = currentUser && currentUser.role === "FACULTY";
+  const fetchEnrollments = async () => {
+    const enrollments = await enrollmentClient.getEnrollments();
+    dispatch(setEnrollments(enrollments));
+  };
+  useEffect(() => {
+    fetchEnrollments();
+  }, []);
+
+  const createEnrollemnt = async (userId: string, courseId: string) => {
+    if (!course._id) return;
+    const newEnrollment = await enrollmentClient.createEnrollment(
+      userId,
+      courseId
+    );
+    dispatch(addEnrollment(newEnrollment));
+  };
+
+  const removeEnrollment = async (userId: string, courseId: string) => {
+    await enrollmentClient.deleteEnrollment(userId, courseId);
+    dispatch(deleteEnrollment({ user: userId, course: courseId }));
+  };
   const [checkAllCourses, setcheckAllCourses] = useState(false);
   const userEnrollments = enrollments.filter(
     (e: any) => e.user === currentUser._id
@@ -123,12 +149,7 @@ export default function Dashboard({
                         <Button
                           variant="danger"
                           onClick={() =>
-                            dispatch(
-                              deleteEnrollment({
-                                user: currentUser._id,
-                                course: course._id,
-                              })
-                            )
+                            removeEnrollment(currentUser._id, course._id)
                           }
                         >
                           Unenroll
@@ -137,12 +158,7 @@ export default function Dashboard({
                         <Button
                           variant="success"
                           onClick={() =>
-                            dispatch(
-                              addEnrollment({
-                                user: currentUser._id,
-                                course: course._id,
-                              })
-                            )
+                            createEnrollemnt(currentUser._id, course._id)
                           }
                         >
                           Enroll

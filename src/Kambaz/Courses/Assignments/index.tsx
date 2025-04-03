@@ -8,15 +8,30 @@ import GreenCheckmark from "../Modules/GreenCheckmark";
 import { Link, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { FaTrash } from "react-icons/fa";
-import { deleteAssignment } from "./reducer";
-
+import { setAssignments, deleteAssignment } from "./reducer";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
+import { useEffect } from "react";
 export default function Assignments() {
   const { cid } = useParams();
   const dispatch = useDispatch();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser.role === "FACULTY";
-  console.log(assignments.length);
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(
+      cid as string
+    );
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+  const removeAssignment = async (assignmentId: string) => {
+    await assignmentsClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
   return (
     <div>
       <AssignmentsControls isFaculty={isFaculty} />
@@ -66,9 +81,7 @@ export default function Assignments() {
                   <GreenCheckmark />
                   {isFaculty && (
                     <FaTrash
-                      onClick={() =>
-                        dispatch(deleteAssignment(assignment?._id))
-                      }
+                      onClick={() => removeAssignment(assignment._id)}
                       className="text-danger me-3"
                     />
                   )}
