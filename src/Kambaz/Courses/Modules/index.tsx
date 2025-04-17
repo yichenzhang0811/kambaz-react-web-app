@@ -5,9 +5,8 @@ import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
 import { BsGripVertical } from "react-icons/bs";
 import { useParams } from "react-router";
-import * as coursesClient from "../client";
-import * as modulesClient from "./client";
-
+import * as courseClient from "../client";
+import * as moduleClient from "./client";
 import {
   setModules,
   addModule,
@@ -15,6 +14,7 @@ import {
   updateModule,
   deleteModule,
 } from "./reducer";
+
 import { useSelector, useDispatch } from "react-redux";
 
 export default function Modules() {
@@ -25,34 +25,37 @@ export default function Modules() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser.role === "FACULTY";
   const fetchModules = async () => {
-    const modules = await coursesClient.findModulesForCourse(cid as string);
+    const modules = await courseClient.findModulesForCourse(cid as string);
     dispatch(setModules(modules));
   };
-  const createModuleForCourse = async () => {
-    if (!cid) return;
-    const newModule = { name: moduleName, course: cid };
-    const module = await coursesClient.createModuleForCourse(cid, newModule);
-    dispatch(addModule(module));
-  };
-  const removeModule = async (moduleId: string) => {
-    await modulesClient.deleteModule(moduleId);
+
+  const deleteModuleHandler = async (moduleId: string) => {
+    await moduleClient.deleteModule(moduleId);
     dispatch(deleteModule(moduleId));
-  };
-  const saveModule = async (module: any) => {
-    await modulesClient.updateModule(module);
-    dispatch(updateModule(module));
   };
 
   useEffect(() => {
     fetchModules();
   }, []);
+  const addModuleHandler = async () => {
+    const newModule = await courseClient.createModuleForCourse(cid!, {
+      name: moduleName,
+      course: cid,
+    });
+    dispatch(addModule(newModule));
+    setModuleName("");
+  };
+  const updateModuleHandler = async (module: any) => {
+    await moduleClient.updateModule(module);
+    dispatch(updateModule(module));
+  };
 
   return (
     <div className="wd-modules">
       <ModulesControls
         setModuleName={setModuleName}
         moduleName={moduleName}
-        addModule={createModuleForCourse}
+        addModule={addModuleHandler}
         isFaculty={isFaculty}
       />
 
@@ -70,11 +73,11 @@ export default function Modules() {
                 <FormControl
                   className="w-50 d-inline-block"
                   onChange={(e) =>
-                    dispatch(updateModule({ ...module, name: e.target.value }))
+                    updateModuleHandler({ ...module, name: e.target.value })
                   }
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      saveModule({ ...module, editing: false });
+                      updateModuleHandler({ ...module, editing: false });
                     }
                   }}
                   defaultValue={module.name}
@@ -82,7 +85,7 @@ export default function Modules() {
               )}
               <ModuleControlButtons
                 moduleId={module._id}
-                deleteModule={(moduleId) => removeModule(moduleId)}
+                deleteModule={(moduleId) => deleteModuleHandler(moduleId)}
                 editModule={(moduleId) => dispatch(editModule(moduleId))}
                 isFaculty={isFaculty}
               />

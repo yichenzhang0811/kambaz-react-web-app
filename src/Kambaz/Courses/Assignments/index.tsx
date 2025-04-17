@@ -46,48 +46,53 @@ export default function Assignments() {
             <AssignmentControlButtons />
           </div>
           <ListGroup className="wd-lessons rounded-0" id="wd-assigment-list">
-            {assignments
-              .filter((assignment: any) => assignment.course === cid)
-              .map((assignment: any) => (
-                <ListGroup.Item
-                  border-start
-                  border-4
-                  border-success
-                  p-3
-                  style={{ borderLeft: "4px solid green" }}
-                  className="d-flex align-items-center p-3 border-start border-success "
-                >
-                  <BsGripVertical className="me-2 fs-4 text-muted " />
-                  <BsPencilSquare />
+            {assignments.map((assignment: any) => (
+              <ListGroup.Item
+                border-start
+                border-4
+                border-success
+                p-3
+                style={{ borderLeft: "4px solid green" }}
+                className="d-flex align-items-center p-3 border-start border-success "
+              >
+                <BsGripVertical className="me-2 fs-4 text-muted " />
+                <BsPencilSquare />
 
-                  <div className="flex-grow-1">
-                    {isFaculty ? (
-                      <Link
-                        to={`/Kambaz/Courses/${cid}/Assignments/${assignment._id}`}
-                        className="text-decoration-none text-dark me-2"
-                      >
-                        {assignment.title}
-                      </Link>
-                    ) : (
-                      <span className="text-dark me-2">{assignment.title}</span>
-                    )}
-
-                    <div className="text-muted small">
-                      <span className="text-danger">Multiple Modules</span> |{" "}
-                      <b>Not Available until {assignment.avaible_at} </b> |{" "}
-                      {assignment.due_date} | {assignment.points} pts
-                    </div>
-                  </div>
-                  <GreenCheckmark />
-                  {isFaculty && (
-                    <FaTrash
-                      onClick={() => removeAssignment(assignment._id)}
-                      className="text-danger me-3"
-                    />
+                <div className="flex-grow-1">
+                  {isFaculty ? (
+                    <Link
+                      to={`/Kambaz/Courses/${cid}/Assignments/${assignment._id}`}
+                      className="text-decoration-none text-dark me-2"
+                    >
+                      {assignment.title}
+                    </Link>
+                  ) : (
+                    <span className="text-dark me-2">{assignment.title}</span>
                   )}
-                  <IoEllipsisVerticalSharp className="fs-4 mt-1" />
-                </ListGroup.Item>
-              ))}
+
+                  <div className="text-muted small">
+                    <span className="text-danger">{assignment.modules}</span> |{" "}
+                    <b>
+                      Not Available until{" "}
+                      {new Date(assignment.available_at).toLocaleDateString(
+                        "en-CA"
+                      )}
+                    </b>{" "}
+                    | Due at{" "}
+                    {new Date(assignment.due_date).toLocaleDateString("en-CA")}|{" "}
+                    {assignment.points} pts
+                  </div>
+                </div>
+                <GreenCheckmark />
+                {isFaculty && (
+                  <FaTrash
+                    onClick={() => removeAssignment(assignment._id)}
+                    className="text-danger me-3"
+                  />
+                )}
+                <IoEllipsisVerticalSharp className="fs-4 mt-1" />
+              </ListGroup.Item>
+            ))}
           </ListGroup>
         </ListGroup.Item>
       </ListGroup>

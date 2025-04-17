@@ -42,7 +42,6 @@ export default function Users() {
 
   const filterUsersByRole = async (role: string) => {
     setRole(role);
-    console.log(role);
     if (role) {
       const users = await client.findUsersByRole(role);
       setUsers(users);

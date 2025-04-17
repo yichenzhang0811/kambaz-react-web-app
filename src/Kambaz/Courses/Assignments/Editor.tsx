@@ -16,19 +16,23 @@ export default function AssignmentEditor() {
   const currentAssignment = assignments.find(
     (assignment: any) => assignment.course === cid && assignment._id === aid
   );
+  const now = new Date();
+  const toLocalDateTime = (date: Date) => {
+    return date.toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm (for datetime-local)
+  };
   const [assignment, setAssignment] = useState(
     isNewAssigment
       ? {
           _id: uuidv4(),
           title: "",
           course: cid,
-          avaible_at: new Date().toISOString(),
-          avaible_until: new Date(
-            new Date().setDate(new Date().getDate() + 20)
-          ).toISOString(),
-          due_date: new Date(
-            new Date().setDate(new Date().getDate() + 14)
-          ).toISOString(),
+          available_at: toLocalDateTime(now),
+          available_until: toLocalDateTime(
+            new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000)
+          ),
+          due_date: toLocalDateTime(
+            new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000)
+          ),
           points: 100,
           description: "",
         }
@@ -36,7 +40,7 @@ export default function AssignmentEditor() {
   );
   const newAssign = aid === "new";
 
-  const handleSave = async () => {
+  const updateAssignmentHandler = async () => {
     if (!cid) return;
     try {
       if (newAssign) {
@@ -58,10 +62,11 @@ export default function AssignmentEditor() {
   };
   const formatDate = (isoString: string | undefined) => {
     if (!isoString) return "";
-    return new Date(isoString).toISOString().slice(0, 16);
+    return isoString.slice(0, 16);
   };
+
   const handleDateChange = (field: string, value: string) => {
-    setAssignment({ ...assignment, [field]: new Date(value).toISOString() });
+    setAssignment({ ...assignment, [field]: value });
   };
   return (
     <div>
@@ -211,10 +216,10 @@ export default function AssignmentEditor() {
                 </Form.Label>
                 <Form.Control
                   type="datetime-local"
-                  value={formatDate(assignment?.avaible_at)}
-                  defaultValue={assignment?.avaible_at}
+                  value={formatDate(assignment?.available_at)}
+                  defaultValue={assignment?.available_at}
                   onChange={(e) =>
-                    handleDateChange("avaible_at", e.target.value)
+                    handleDateChange("available_at", e.target.value)
                   }
                 />
               </Form.Group>
@@ -226,8 +231,7 @@ export default function AssignmentEditor() {
                 </Form.Label>
                 <Form.Control
                   type="datetime-local"
-                  defaultValue="2024-05-20T12:00"
-                  value={formatDate(assignment?.avaible_until)}
+                  value={formatDate(assignment?.available_until)}
                   onChange={(e) =>
                     handleDateChange("available_until", e.target.value)
                   }
@@ -249,7 +253,7 @@ export default function AssignmentEditor() {
               >
                 Cancel
               </Button>
-              <Button variant="danger" onClick={handleSave}>
+              <Button variant="danger" onClick={updateAssignmentHandler}>
                 Save
               </Button>
             </Link>
